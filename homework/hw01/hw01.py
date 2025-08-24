@@ -68,11 +68,18 @@ def largest_factor(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    # a = 1
+    # for i in range(1, n):
+    #    if n % i == 0:
+    #        a = i
+
     a = 1
-    for i in range(1, n):
+    i = 1
+    while i < n:
         if n % i == 0:
             a = i
-    
+        i = i + 1
+
     return a
 
 
