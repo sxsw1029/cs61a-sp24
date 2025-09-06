@@ -49,6 +49,7 @@ def divisible_by_k(n, k):
     
     return count
 
+
 def sum_digits(y):
     """Sum all the digits of y.
 
@@ -94,3 +95,4 @@ def double_eights(n):
         n = n // 10
 
     return False
+
