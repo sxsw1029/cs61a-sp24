@@ -48,6 +48,39 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+        self.stock = 0
+        self.fund = 0
+
+    def vend(self):
+        if self.stock == 0:
+            return 'Nothing left to vend. Please restock.'
+
+        if self.fund < self.price:
+            return f'Please add ${self.price - self.fund} more funds.'
+
+        msg = f'Here is your {self.name}'
+
+        if self.fund > self.price:
+            change = self.fund - self.price
+            msg += f' and ${change} change'
+
+        self.fund = 0
+        self.stock -= 1
+        return msg + '.'
+
+    def add_funds(self, fund):
+        if self.stock > 0:
+            self.fund += fund
+            return f'Current balance: ${self.fund}'
+
+        return f'Nothing left to vend. Please restock. Here is your ${fund}.'
+
+    def restock(self, stock):
+        self.stock += stock
+        return f'Current {self.name} stock: {self.stock}'
 
 
 def store_digits(n):
@@ -68,6 +101,13 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    link = Link.empty
+
+    while n > 0:
+        link = Link(n % 10, link)
+        n = n // 10
+
+    return link
 
 
 def deep_map_mut(func, lnk):
@@ -90,6 +130,15 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    if lnk == Link.empty:
+        return lnk
+
+    if isinstance(lnk.first, Link):
+        deep_map_mut(func, lnk.first)
+    else:
+        lnk.first = func(lnk.first)
+
+    return deep_map_mut(func, lnk.rest)
 
 
 def two_list(vals, counts):
@@ -111,6 +160,15 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    link = Link(Link.empty)
+    current = link
+
+    for i in range(len(counts)):
+        for _ in range(counts[i]):
+            current.rest = Link(vals[i])
+            current = current.rest
+
+    return link.rest
 
 
 class Link:
